@@ -1,15 +1,20 @@
 package org.ccw.store.inventory.repo;
 
+import jdk.nashorn.internal.runtime.options.Option;
+import org.ccw.store.inventory.model.Category;
 import org.ccw.store.inventory.model.Inventory;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,9 +31,10 @@ public class InventoryRepoTest {
     private EntityManager entityManager;
     @Autowired
     private InventoryRepository inventoryRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-    public InventoryRepoTest(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public InventoryRepoTest() {
     }
 
     @Test
@@ -41,8 +47,13 @@ public class InventoryRepoTest {
 
     @Test
     public void inventoryPersistTest(){
-        Inventory i = new Inventory();
-
-        inventoryRepository.save(i);
+        Optional<Category> c = categoryRepository.findById(8L);
+        if (c.isPresent()) {
+            Inventory i = new Inventory();
+            i.setName("abc");
+            i.setQuantity(1222L);
+            i.setSubcategory(c.get());
+            inventoryRepository.save(i);
+        }
     }
 }

@@ -1,10 +1,16 @@
 package org.ccw.store.inventory.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Inventory {
@@ -21,11 +27,9 @@ public class Inventory {
     private String name;
 
     @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "CATEGORY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "CATEGORY_ID", insertable = true, updatable = true)
     @JsonManagedReference
     private Category subcategory;
-
-    public Inventory(){}
 
     public Long getInventoryId() {
         return inventoryId;
@@ -34,6 +38,8 @@ public class Inventory {
     public void setInventoryId(Long inventoryId) {
         this.inventoryId = inventoryId;
     }
+
+    public Inventory(){}
 
     public Long getQuantity() {
         return quantity;

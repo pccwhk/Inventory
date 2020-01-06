@@ -7,11 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class InventoryApplicationTests {
 
     @Test
-    void contextLoads() {
-        assert 1==1;
-    }
-
-    @Test
     void testInventoryUpdate(){
 
     }

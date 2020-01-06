@@ -45,7 +45,7 @@ public class InventoryRepoTest {
 
     @Test
     public void inventoryPersistTest(){
-        Optional<Category> c = categoryRepository.findById(8L);
+        Optional<Category> c = categoryRepository.findById(3L);
         if (c.isPresent()) {
             Inventory i = new Inventory();
             i.setName("abc");

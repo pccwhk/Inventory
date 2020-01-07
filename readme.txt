@@ -15,8 +15,16 @@ Below assumptions are made:
 Rest Api
 1. Get http://localhost:8080/inventories to get all the inventories records
 
-2. GET http://localhost:8080/inventories/query?name=COKE to query the inventories by name
+2. GET http://localhost:8080/inventories/name/{name} to query the inventories by name
 
 3. POST http://localhost:8080/inventories with the request body to create new record
 
 4. PUT http://localhost:8080/inventories with the request body to update existing record
+
+5. GET http://localhost:8080/inventories/page/{pageNo}?size=2 for paging result
+=================================================
+
+Remarks
+the following command really work to get the check sum of all files :)
+
+find . | xargs cksum

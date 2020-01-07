@@ -1,13 +1,14 @@
 package org.ccw.store.inventory.repo;
 
 
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import org.ccw.store.inventory.model.Category;
 import org.ccw.store.inventory.model.Inventory;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,7 +37,7 @@ public class InventoryRepoTest {
     }
 
     @Test
-    void injectedComponentsAreNotNull(){
+    public void injectedComponentsAreNotNull(){
         assertThat(dataSource).isNotNull();
         assertThat(jdbcTemplate).isNotNull();
         assertThat(entityManager).isNotNull();
@@ -45,13 +46,24 @@ public class InventoryRepoTest {
 
     @Test
     public void inventoryPersistTest(){
+        String name = "TEST";
+        long qty = 1000L;
+        List<Inventory> list = inventoryRepository.findByName(name);
+        assertThat(list.isEmpty());
+
         Optional<Category> c = categoryRepository.findById(3L);
         if (c.isPresent()) {
             Inventory i = new Inventory();
-            i.setName("abc");
-            i.setQuantity(1222L);
+            i.setName(name);
+            i.setQuantity(qty);
             i.setSubcategory(c.get());
-            inventoryRepository.save(i);
+            inventoryRepository.saveAndFlush(i);
         }
+
+        list = inventoryRepository.findByName(name);
+        assertThat(!list.isEmpty());
+        assertThat(list.get(0).getQuantity() == qty);
+        assertThat(name.equals(list.get(0).getName()));
+        assertThat(list.get(0).getInventoryId() != null);
     }
 }

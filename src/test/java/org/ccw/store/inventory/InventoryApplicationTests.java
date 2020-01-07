@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class InventoryApplicationTests {
 
     @Test
-    void testInventoryUpdate(){
-
+    public void applicationTest(){
+        // @todo application level testing
     }
 }
